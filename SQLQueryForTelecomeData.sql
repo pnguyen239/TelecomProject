@@ -131,6 +131,79 @@ WITH (
     TABLOCK
 );
 
+select*from CustomerUsage where YEAR = 2024
+select*from telecom_plans
+select * from Providers
+select*from Customers
+select*from Customers where providerID = 1
+select*from Customers where providerID = 2
+select*from Customers where providerID = 3
+select*from Customers where providerID = 4
+select*from Customers where providerID = 5
+
+
+
+-- Add two new columns first
+ALTER TABLE CustomerUsage
+ADD [Month] VARCHAR(3),  -- or VARCHAR(10) if you want full month names
+    [Year] INT;
+
+-- Update the new columns by splitting month_year
+UPDATE CustomerUsage
+SET [Month] = LEFT(month_year, 3),
+    [Year] = '20' + RIGHT(month_year, 2);  -- converts '24' to 2024
+
+
+-- Set all provider initially to Public Mobile
+UPDATE Customers
+SET providerID = 5;
+
+-- Update first 240 customers to SaskTel
+WITH CTE_SaskTel AS (
+  SELECT TOP(240) customer_id
+  FROM Customers
+  ORDER BY customer_id
+)
+UPDATE c
+SET providerID = 1
+FROM Customers c
+JOIN CTE_SaskTel s ON c.customer_id = s.customer_id;
+
+-- Update next 188 customers to Bell
+WITH CTE_Bell AS (
+  SELECT TOP(188) customer_id
+  FROM Customers
+  WHERE providerID = 5
+  ORDER BY customer_id
+)
+UPDATE c
+SET providerID = 3
+FROM Customers c
+JOIN CTE_Bell b ON c.customer_id = b.customer_id;
+
+-- Update next 165 customers to Telus
+WITH CTE_Telus AS (
+  SELECT TOP(165) customer_id
+  FROM Customers
+  WHERE providerID = 5
+  ORDER BY customer_id
+)
+UPDATE c
+SET providerID = 2
+FROM Customers c
+JOIN CTE_Telus t ON c.customer_id = t.customer_id;
+
+-- Update next 98 customers to Rogers
+WITH CTE_Rogers AS (
+  SELECT TOP(98) customer_id
+  FROM Customers
+  WHERE providerID = 5
+  ORDER BY customer_id
+)
+UPDATE c
+SET providerID = 4
+FROM Customers c
+JOIN CTE_Rogers r ON c.customer_id = r.customer_id;
 
 
 
