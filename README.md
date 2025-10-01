@@ -1,5 +1,6 @@
 # TelecomProject
 Saskatchewan Telecom Market Analysis and Performance Dashboard
+
 **Overview**
 This project delivers a comprehensive Power BI dashboard for analyzing the telecommunications market in Saskatchewan, Canada. It integrates plan pricing, customer usage data, market share, and 5G adoption trends to provide actionable insights for stakeholders. The dashboard supports real-time business metrics, forecasting, and strategic decision-making to optimize plan offerings and network investments.
 
